@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep the Maison-inspired editorial presentation in the existing home route and shared styles, using studio imagery and existing booking links rather than adding store functionality; the reference is visual only.
