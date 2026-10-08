@@ -24,7 +24,7 @@ const dict = {
     remaining: "المتبقي",
     hairTitle: "تصفيف الشعر مع المصففة سارة",
     hairOpt: "أرغب بتصفيف الشعر مع المصففة سارة",
-    hairNote: "٢٠٠–٣٥٠ ريال حسب الطول والكثافة، العروس ٤٠٠ ريال. يحتاج تنسيقًا وتأكيدًا منفصلًا.",
+    hairNote: "200–350 ريال حسب الطول والكثافة، العروس 400 ريال. يحتاج تنسيقًا وتأكيدًا منفصلًا.",
     hairCount: "عدد الراغبات",
     hairBride: "تشمل العروس",
     hairLength: "طول الشعر",
@@ -48,7 +48,7 @@ const dict = {
     pickDate: "اختاري اليوم", pickTime: "اختاري الوقت", noSlots: "لا توجد أوقات متاحة في هذا اليوم.",
     name: "الاسم", phone: "رقم الجوال", notes: "ملاحظات",
     policyTitle: "سياسة الحجز",
-    policyText: "الطلب لا يعني تأكيد الموعد. بعد موافقة جود المبدئية يُحوّل العربون خلال ٢٤ ساعة. في حال الإلغاء من طرف العميلة، العربون غير مسترد.",
+    policyText: "الطلب لا يعني تأكيد الموعد. بعد موافقة جود المبدئية يُحوّل العربون خلال 24 ساعة. في حال الإلغاء من طرف العميلة، العربون غير مسترد.",
     agree: "أوافق على سياسة الحجز",
     summary: "ملخص الحجز",
     showSummary: "عرض الملخص",
@@ -200,12 +200,15 @@ export function useI18n() {
   return c;
 }
 
+// Numbers always render in Western (English) digits, even in Arabic mode.
+const numLocale = (lang: Lang) => (lang === "ar" ? "ar-SA-u-nu-latn" : "en-GB");
+
 export function fmtMoney(n: number, lang: Lang) {
-  return `${n.toLocaleString(lang === "ar" ? "ar-SA" : "en-US")} ${dict[lang].sar}`;
+  return `${n.toLocaleString(numLocale(lang))} ${dict[lang].sar}`;
 }
 
 export function fmtDateTime(iso: string, lang: Lang) {
-  return new Intl.DateTimeFormat(lang === "ar" ? "ar-SA-u-ca-gregory" : "en-GB", {
+  return new Intl.DateTimeFormat(lang === "ar" ? "ar-SA-u-nu-latn-ca-gregory" : "en-GB", {
     timeZone: "Asia/Riyadh",
     weekday: "long",
     day: "numeric",
@@ -216,7 +219,7 @@ export function fmtDateTime(iso: string, lang: Lang) {
 }
 
 export function fmtTime(iso: string, lang: Lang) {
-  return new Intl.DateTimeFormat(lang === "ar" ? "ar-SA" : "en-GB", {
+  return new Intl.DateTimeFormat(numLocale(lang), {
     timeZone: "Asia/Riyadh",
     hour: "numeric",
     minute: "2-digit",
