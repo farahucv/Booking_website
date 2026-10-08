@@ -137,7 +137,7 @@ function BookingCard({ b }: { b: Booking }) {
     } catch (e) {
       const m = (e as Error).message;
       const k = Object.keys(ACTION_ERR).find((x) => m.includes(x));
-      toast.error(k ? tr(...ACTION_ERR[k]) : m);
+      toast.error(k ? tr(ACTION_ERR[k]![0], ACTION_ERR[k]![1]) : m);
     } finally {
       setBusy(false);
     }
@@ -222,7 +222,7 @@ function Blocks() {
   const { tr, lang } = useI18n();
   const [rows, setRows] = useState<any[]>([]);
   const [f, setF] = useState({ date: "", from: "09:00", to: "23:00", reason: "", source: "vacation" as "manual" | "external_booking" | "vacation" });
-  const load = (d: Parameters<typeof adminBlocks>[0]["data"]) => adminBlocks({ data: d }).then(setRows).catch((e) => toast.error(e.message));
+  const load = (d: any) => adminBlocks({ data: d }).then(setRows).catch((e) => toast.error(e.message));
   useEffect(() => { load({ op: "list" }); }, []);
   const add = () => {
     if (!f.date) return;
@@ -357,11 +357,11 @@ function SettingsTab() {
             <label>{tr("تقويم الحجوزات", "Bookings calendar")}
               <select className={inp} value={s.calendar.booking_calendar_id} onChange={(e) => setS({ ...s, calendar: { ...s.calendar, booking_calendar_id: e.target.value } })}>
                 <option value="">{tr("— بدون —", "— none —")}</option>
-                {cals.data.calendars.map((c) => <option key={c.id} value={c.id}>{c.summary}</option>)}
+                {cals.data.calendars.map((c: any) => <option key={c.id} value={c.id}>{c.summary}</option>)}
               </select>
             </label>
             <p>{tr("التقاويم المؤثرة على الإتاحة", "Calendars that block availability")}</p>
-            {cals.data.calendars.map((c) => (
+            {cals.data.calendars.map((c: any) => (
               <label key={c.id} className="flex gap-2">
                 <input type="checkbox" checked={s.calendar.busy_calendar_ids?.includes(c.id)} onChange={(e) => setS({ ...s, calendar: { ...s.calendar, busy_calendar_ids: e.target.checked ? [...(s.calendar.busy_calendar_ids ?? []), c.id] : s.calendar.busy_calendar_ids.filter((x: string) => x !== c.id) } })} />
                 {c.summary}

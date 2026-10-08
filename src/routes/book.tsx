@@ -135,7 +135,7 @@ function BookPage() {
     } catch (e) {
       const msg = (e as Error).message;
       const k = Object.keys(ERR).find((x) => msg.includes(x));
-      toast.error(k ? tr(...ERR[k]) : t("error"));
+      toast.error(k ? tr(ERR[k]![0], ERR[k]![1]) : t("error"));
       if (k === "slot_unavailable") setStep(2);
     } finally {
       setBusy(false);

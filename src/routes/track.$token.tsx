@@ -46,7 +46,7 @@ function TrackPage() {
   const b = q.data;
 
   const onFile = async (f: File) => {
-    if (f.size > 5 * 1024 * 1024) return toast.error(tr("الحد الأقصى ٥ ميجابايت", "Max 5 MB"));
+    if (f.size > 5 * 1024 * 1024) { toast.error(tr("الحد الأقصى ٥ ميجابايت", "Max 5 MB")); return; }
     setUploading(true);
     try {
       const buf = new Uint8Array(await f.arrayBuffer());
