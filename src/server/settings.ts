@@ -35,10 +35,10 @@ async function readSettings(admin: any): Promise<Record<string, unknown>> {
 
 export function mergePublic(map: Record<string, unknown>): PublicSettings {
   return {
-    booking_open: (map.booking_open as boolean) ?? DEFAULT_SETTINGS.booking_open,
-    durations: { ...DEFAULT_SETTINGS.durations, ...((map.durations as Partial<Durations>) ?? {}) },
-    working_hours: { ...DEFAULT_SETTINGS.working_hours, ...((map.working_hours as WorkingHours) ?? {}) },
-    contact: { ...DEFAULT_SETTINGS.contact, ...((map.contact as PublicSettings["contact"]) ?? {}) },
+    booking_open: (map["booking_open"] as boolean) ?? DEFAULT_SETTINGS.booking_open,
+    durations: { ...DEFAULT_SETTINGS.durations, ...((map["durations"] as Partial<Durations>) ?? {}) },
+    working_hours: { ...DEFAULT_SETTINGS.working_hours, ...((map["working_hours"] as WorkingHours) ?? {}) },
+    contact: { ...DEFAULT_SETTINGS.contact, ...((map["contact"] as PublicSettings["contact"]) ?? {}) },
   };
 }
 
@@ -57,7 +57,7 @@ export const getPublicSettings = createServerFn({ method: "GET" }).handler(async
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const map = await readSettings(supabaseAdmin);
   const pub = mergePublic(map);
-  const complete = settingsComplete(pub, map.bank_details);
+  const complete = settingsComplete(pub, map["bank_details"]);
   return { ...pub, booking_open: pub.booking_open && complete };
 });
 
@@ -69,7 +69,7 @@ export const getAdminSettings = createServerFn({ method: "GET" })
     if (!ok) throw new Error("forbidden");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const map = await readSettings(supabaseAdmin);
-    return { public: mergePublic(map), bank_details: map.bank_details ?? null, calendar: map.calendar ?? null };
+    return { public: mergePublic(map), bank_details: map["bank_details"] ?? null, calendar: map["calendar"] ?? null };
   });
 
 export const updateSettings = createServerFn({ method: "POST" })

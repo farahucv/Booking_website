@@ -5,8 +5,8 @@
 const GATEWAY = "https://connector-gateway.lovable.dev/google_calendar/calendar/v3";
 
 function creds() {
-  const key = process.env.GOOGLE_CALENDAR_API_KEY;
-  const lovable = process.env.LOVABLE_API_KEY;
+  const key = process.env["GOOGLE_CALENDAR_API_KEY"];
+  const lovable = process.env["LOVABLE_API_KEY"];
   if (!key || !lovable) return null;
   return { key, lovable };
 }
