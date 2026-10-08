@@ -51,7 +51,7 @@ function Index() {
             <h1 className="mt-6 font-display text-6xl font-normal leading-[1.2] md:text-8xl">{t("brand")}</h1>
             <p className="mt-5 max-w-sm text-base leading-relaxed">{t("intro")}</p>
             <div className="mt-7 flex flex-wrap items-center gap-4">
-              <Button asChild size="lg" className="rounded-none shadow-none"><Link to="/book">{t("bookCta")}<ArrowUpLeft className="rtl:rotate-0 ltr:rotate-90" /></Link></Button>
+              <Button asChild size="lg" className="rounded-none shadow-none"><Link to="/book">إحجزي موعدكِ<ArrowUpLeft className="rtl:rotate-0 ltr:rotate-90" /></Link></Button>
               <Button asChild variant="link" className="text-foreground"><a href={c.whatsapp} target="_blank" rel="noreferrer"><MessageCircle />{t("whatsapp")}</a></Button>
             </div>
             {!data.settings.booking_open && <p className="mt-5 text-sm">{t("bookingClosed")}</p>}
@@ -64,7 +64,7 @@ function Index() {
         <div className="mx-auto max-w-7xl px-6 py-16 md:px-12 md:py-24">
           <div className="mb-12 flex flex-wrap items-end justify-between gap-5">
             <div><p className="mb-3 text-xs text-muted-foreground">{tr("لكل مناسبة", "For every occasion")}</p><h2 className="font-display text-4xl font-normal md:text-5xl">{t("services")}</h2></div>
-            <Button asChild variant="link" className="p-0 text-foreground"><Link to="/book">{t("bookCta")}<ArrowUpLeft /></Link></Button>
+            <Button asChild variant="link" className="p-0 text-foreground"><Link to="/book">إحجزي موعدكِ<ArrowUpLeft /></Link></Button>
           </div>
           <div className="grid gap-10 md:grid-cols-3 md:gap-8">
             {SERVICE_KEYS.map((k, i) => <div key={k} className="border-t border-border pt-6">
@@ -83,7 +83,7 @@ function Index() {
         <img src={detailImg} alt={tr("تفاصيل أدوات المكياج", "Makeup details")} width={1536} height={1024} loading="lazy" className="absolute inset-0 -z-20 h-full w-full object-cover" />
         <div className="maison-feature-shade absolute inset-0 -z-10" />
         <div className="mx-auto w-full max-w-7xl px-6 py-16 md:px-12">
-          <div className="max-w-md"><p className="text-xs">{tr("تفاصيل إطلالتكِ", "Complete your look")}</p><h2 className="mt-6 font-display text-4xl font-normal leading-snug md:text-5xl">{t("hairTitle")}</h2><p className="mt-5 text-base leading-relaxed">{t("hairNote")}</p><Button asChild size="lg" className="mt-8 rounded-none shadow-none"><Link to="/book">{t("bookCta")}<ArrowUpLeft /></Link></Button></div>
+          <div className="max-w-md"><p className="text-xs">{tr("تفاصيل إطلالتكِ", "Complete your look")}</p><h2 className="mt-6 font-display text-4xl font-normal leading-snug md:text-5xl">{t("hairTitle")}</h2><p className="mt-5 text-base leading-relaxed">{t("hairNote")}</p><Button asChild size="lg" className="mt-8 rounded-none shadow-none"><Link to="/book">إحجزي موعدكِ<ArrowUpLeft /></Link></Button></div>
         </div>
       </section>
 
@@ -99,7 +99,7 @@ function Index() {
           <div><h2 className="mb-4 text-sm">{t("contact")}</h2><p className="text-sm text-muted-foreground" dir="ltr">{c.phone}</p><Button asChild variant="link" className="mt-3 p-0 text-foreground"><a href={c.whatsapp} target="_blank" rel="noreferrer"><MessageCircle />{t("whatsapp")}</a></Button></div>
           <div className="flex flex-col gap-3 text-sm"><a href={c.instagram} target="_blank" rel="noreferrer">Instagram</a><a href={c.tiktok} target="_blank" rel="noreferrer">TikTok</a><a href={c.snapchat} target="_blank" rel="noreferrer">Snapchat</a></div>
         </div>
-        <div className="mx-auto flex max-w-7xl justify-between border-t border-border px-6 py-5 text-xs text-muted-foreground md:px-12"><span>© {t("brand")}</span><Link to="/admin">{tr("الإدارة", "Admin")}</Link></div>
+         <div className="mx-auto flex max-w-7xl justify-between border-t border-border px-6 py-5 text-xs text-muted-foreground md:px-12"><span>© فرح اليوسف</span><Link to="/admin">{tr("الإدارة", "Admin")}</Link></div>
       </footer>
     </div>
   );
