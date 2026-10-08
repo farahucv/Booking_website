@@ -32,10 +32,10 @@ export const Route = createFileRoute("/")({
   notFoundComponent: () => <div className="p-10 text-center">Not found</div>,
 });
 
-function SectionHeading({ title, light }: { title: string; light?: boolean }) {
+function SectionHeading({ title }: { title: string }) {
   return (
     <div className="mb-12 text-center">
-      <h2 className={`font-display text-4xl font-bold md:text-5xl ${light ? "text-[oklch(0.96_0.012_88)]" : ""}`}>{title}</h2>
+      <h2 className="font-display text-4xl font-bold md:text-5xl">{title}</h2>
       <div className="gold-divider mt-5 text-lg" aria-hidden>✦</div>
     </div>
   );
@@ -49,7 +49,7 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
-      {/* Hero — editorial split */}
+      {/* Hero — soft editorial split with arched frame */}
       <section className="hero-editorial relative overflow-hidden">
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 md:grid-cols-2 md:py-24">
           <div className="text-center md:text-start">
@@ -64,14 +64,14 @@ function Index() {
             </div>
             {!data.settings.booking_open && <p className="mt-6 text-sm text-muted-foreground">{t("bookingClosed")}</p>}
           </div>
-          <div className="relative">
-            <div aria-hidden className="absolute -inset-4 rounded-[2.5rem] border border-gold/40" />
+          <div className="relative mx-auto w-full max-w-md">
+            <div aria-hidden className="arch-frame absolute -inset-4 border border-gold/50" />
             <img
               src={heroImg}
               alt={t("brand")}
               width={1536}
               height={1024}
-              className="relative aspect-[4/3] w-full rounded-[2rem] object-cover shadow-[var(--shadow-lift)]"
+              className="arch-frame relative aspect-[3/4] w-full object-cover shadow-[var(--shadow-lift)]"
             />
           </div>
         </div>
@@ -90,44 +90,49 @@ function Index() {
                 src={p.url}
                 alt={t("portfolio")}
                 loading="lazy"
-                className={`aspect-[3/4] w-full rounded-3xl object-cover shadow-[var(--shadow-soft)] ${i % 3 === 1 ? "md:translate-y-8" : ""}`}
+                className={`aspect-[3/4] w-full rounded-[2rem] object-cover shadow-[var(--shadow-soft)] ${i % 3 === 1 ? "md:translate-y-8" : ""}`}
               />
             ))}
           </div>
         )}
       </section>
 
-      {/* Services — espresso feature band */}
+      {/* Services — soft cream feature band */}
       <section className="espresso-band">
         <div className="mx-auto max-w-6xl px-4 py-20 md:py-28">
-          <SectionHeading title={t("services")} light />
+          <SectionHeading title={t("services")} />
           <div className="grid gap-6 md:grid-cols-3">
             {SERVICE_KEYS.map((k) => {
               const featured = k === "queen";
               return (
                 <div
                   key={k}
-                  className={`rounded-3xl p-9 text-center transition-transform hover:-translate-y-1 ${
+                  className={`rounded-[2rem] p-9 text-center transition-transform hover:-translate-y-1 ${
                     featured
-                      ? "border border-gold/60 bg-[oklch(0.32_0.04_58)] shadow-[var(--shadow-lift)] md:scale-[1.04]"
-                      : "border border-[oklch(1_0_0/12%)] bg-[oklch(1_0_0/4%)]"
+                      ? "border border-gold/60 bg-card shadow-[var(--shadow-lift)] md:scale-[1.04]"
+                      : "border border-border bg-card/80 shadow-[var(--shadow-soft)]"
                   }`}
                 >
-                  <h3 className="font-display text-2xl font-bold text-[oklch(0.96_0.012_88)]">{t(`svc_${k}` as const)}</h3>
-                  <p className="mt-5 font-display text-5xl font-bold text-gold">{fmtMoney(SERVICES[k].price, lang)}</p>
-                  <p className="mt-2 text-sm text-[oklch(0.8_0.02_80)]">{k === "bride" ? t("forBride") : t("perPerson")}</p>
+                  {featured && (
+                    <span className="mb-4 inline-block rounded-full bg-gold/15 px-4 py-1 text-xs font-bold text-gold-foreground">
+                      {tr("الأكثر طلبًا", "Most requested")}
+                    </span>
+                  )}
+                  <h3 className="font-display text-2xl font-bold">{t(`svc_${k}` as const)}</h3>
+                  <p className="mt-5 font-display text-5xl font-bold text-gold-foreground">{fmtMoney(SERVICES[k].price, lang)}</p>
+                  <p className="mt-2 text-sm text-muted-foreground">{k === "bride" ? t("forBride") : t("perPerson")}</p>
                   <div className="mx-auto mt-6 h-px w-12 bg-gold/60" aria-hidden />
-                  <p className="mt-5 text-sm text-[oklch(0.8_0.02_80)]">
+                  <p className="mt-5 text-sm text-muted-foreground">
                     {t("deposit")}: {fmtMoney(SERVICES[k].deposit, lang)}
                   </p>
                 </div>
               );
             })}
           </div>
-          <p className="mt-8 text-center text-sm text-[oklch(0.8_0.02_80)]">✦ {t("lashesFree")} · {t("travelPending")}</p>
-          <div className="mx-auto mt-10 max-w-2xl rounded-3xl border border-[oklch(1_0_0/12%)] bg-[oklch(1_0_0/4%)] p-8 text-center">
-            <h3 className="font-display text-xl font-bold text-[oklch(0.96_0.012_88)]">{t("hairTitle")}</h3>
-            <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-[oklch(0.8_0.02_80)]">{t("hairNote")}</p>
+          <p className="mt-8 text-center text-sm text-muted-foreground">✦ {t("lashesFree")} · {t("travelPending")}</p>
+          <div className="card-luxe mx-auto mt-10 max-w-2xl p-8 text-center">
+            <h3 className="font-display text-xl font-bold">{t("hairTitle")}</h3>
+            <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">{t("hairNote")}</p>
           </div>
           <div className="mt-14 text-center">
             <Link to="/book" className="btn-gold px-10 text-base">{t("bookCta")}</Link>
