@@ -46,9 +46,9 @@
 }
 
 :root {
-  --radius: 1.1rem;
+  --radius: 0.375rem;
   --font-sans-stack: "Tajawal", "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --font-display-stack: "Amiri", "El Messiri", "Tajawal", serif;
+  --font-display-stack: "Cormorant Garamond", "Amiri", "Tajawal", serif;
   /* Pearl ivory — soft feminine palette */
   --background: oklch(0.978 0.01 90);
   --foreground: oklch(0.4 0.03 60);
@@ -57,12 +57,12 @@
   --popover: oklch(0.995 0.006 92);
   --popover-foreground: oklch(0.4 0.03 60);
   /* Champagne gold primary */
-  --primary: oklch(0.72 0.085 80);
+  --primary: oklch(0.53 0.07 60);
   --primary-foreground: oklch(0.99 0.005 90);
   --secondary: oklch(0.955 0.018 88);
   --secondary-foreground: oklch(0.42 0.03 60);
   --muted: oklch(0.955 0.018 88);
-  --muted-foreground: oklch(0.58 0.025 65);
+  --muted-foreground: oklch(0.48 0.025 65);
   --accent: oklch(0.96 0.022 90);
   --accent-foreground: oklch(0.45 0.04 65);
   /* Champagne gold accent */
@@ -78,6 +78,8 @@
   --chart-3: oklch(0.65 0.05 70);
   --chart-4: oklch(0.82 0.05 90);
   --chart-5: oklch(0.55 0.04 60);
+  --hero-shade: linear-gradient(90deg, oklch(0.978 0.01 90 / 90%) 0%, oklch(0.978 0.01 90 / 50%) 36%, transparent 65%);
+  --feature-shade: linear-gradient(90deg, oklch(0.978 0.01 90 / 96%) 0%, oklch(0.978 0.01 90 / 85%) 35%, oklch(0.978 0.01 90 / 8%) 100%);
 }
 
 .dark {
@@ -118,6 +120,7 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans-stack);
+    letter-spacing: 0;
   }
 
   h1, h2, .font-display {
@@ -131,9 +134,9 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border-radius: 9999px;
-    background: linear-gradient(135deg, oklch(0.78 0.09 84), oklch(0.66 0.08 76));
-    color: oklch(0.99 0.005 90);
+    border-radius: var(--radius);
+    background: var(--primary);
+    color: var(--primary-foreground);
     font-weight: 700;
     padding: 0.85rem 2.1rem;
     box-shadow: var(--shadow-lift);
@@ -147,9 +150,9 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border-radius: 9999px;
-    background: linear-gradient(135deg, oklch(0.8 0.095 84), oklch(0.68 0.085 76));
-    color: oklch(0.99 0.005 90);
+    border-radius: var(--radius);
+    background: var(--primary);
+    color: var(--primary-foreground);
     font-weight: 700;
     padding: 0.85rem 2.1rem;
     box-shadow: var(--shadow-lift);
@@ -205,7 +208,7 @@
     gap: 0.6rem;
     font-size: 0.8rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0;
     color: var(--gold-foreground);
   }
   .eyebrow::before,
@@ -235,4 +238,23 @@
       radial-gradient(70% 90% at 50% -10%, oklch(0.94 0.03 85 / 80%), transparent 70%),
       linear-gradient(180deg, oklch(0.958 0.02 87), oklch(0.948 0.022 85));
   }
+
+  .maison-hero { height: min(760px, calc(100svh - 130px)); min-height: 510px; }
+  .maison-hero-inner { direction: ltr; }
+  .maison-hero-copy { direction: rtl; text-align: right; }
+  html[lang="en"] .maison-hero-copy { direction: ltr; text-align: left; }
+  .maison-hero-shade { background: var(--hero-shade); }
+  .maison-feature { direction: ltr; }
+  .maison-feature > div:last-child > div { direction: rtl; text-align: right; }
+  html[lang="en"] .maison-feature > div:last-child > div { direction: ltr; text-align: left; }
+  .maison-feature-shade { background: var(--feature-shade); }
+  .maison-hero-image { animation: editorial-reveal 1.2s ease-out both; }
+  @keyframes editorial-reveal { from { transform: scale(1.035); } to { transform: scale(1); } }
+  @media (max-width: 767px) {
+    .maison-hero { height: calc(100svh - 125px); min-height: 520px; max-height: 760px; }
+    .maison-hero-image { object-position: 35% center; }
+    .maison-hero-shade { background: var(--feature-shade); }
+    .maison-hero-copy { max-width: 330px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .maison-hero-image { animation: none; } }
 }
