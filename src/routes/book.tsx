@@ -87,7 +87,7 @@ function BookPage() {
         <SiteHeader />
         <div className="mx-auto max-w-lg px-4 py-20 text-center">
           <p className="text-lg">{t("bookingClosed")}</p>
-          <a href={settings.contact.whatsapp} target="_blank" rel="noreferrer" className="mt-6 inline-block rounded-full bg-primary px-6 py-3 font-bold text-primary-foreground">{t("whatsapp")}</a>
+          <a href={settings.contact.whatsapp} target="_blank" rel="noreferrer" className="btn-primary mt-6">{t("whatsapp")}</a>
         </div>
       </div>
     );
@@ -268,11 +268,11 @@ function BookPage() {
             )}
 
             <div className="mt-8 flex justify-between gap-3">
-              <button type="button" disabled={step === 0} onClick={() => setStep(step - 1)} className="rounded-full border border-border px-5 py-2.5 disabled:opacity-40">{t("back")}</button>
+              <button type="button" disabled={step === 0} onClick={() => setStep(step - 1)} className="btn-outline disabled:opacity-40">{t("back")}</button>
               {step < 4 ? (
-                <button type="button" disabled={!canNext} onClick={() => setStep(step + 1)} className="rounded-full bg-primary px-6 py-2.5 font-bold text-primary-foreground disabled:opacity-40">{t("next")}</button>
+                <button type="button" disabled={!canNext} onClick={() => setStep(step + 1)} className="btn-primary">{t("next")}</button>
               ) : (
-                <button type="button" disabled={!canNext || busy} onClick={submit} className="rounded-full bg-primary px-6 py-2.5 font-bold text-primary-foreground disabled:opacity-40">{busy ? "…" : t("submit")}</button>
+                <button type="button" disabled={!canNext || busy} onClick={submit} className="btn-primary">{busy ? "…" : t("submit")}</button>
               )}
             </div>
           </div>
