@@ -169,7 +169,7 @@ const dict = {
 
 export type TKey = keyof typeof dict.ar;
 
-type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (k: TKey) => string; dir: "rtl" | "ltr" };
+type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (k: TKey) => string; tr: (ar: string, en: string) => string; dir: "rtl" | "ltr" };
 const I18nContext = createContext<Ctx | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
@@ -188,7 +188,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   };
   const t = (k: TKey) => dict[lang][k];
   return (
-    <I18nContext.Provider value={{ lang, setLang, t, dir: lang === "ar" ? "rtl" : "ltr" }}>
+    <I18nContext.Provider value={{ lang, setLang, t, tr: (a: string, e: string) => (lang === "ar" ? a : e), dir: lang === "ar" ? "rtl" : "ltr" }}>
       {children}
     </I18nContext.Provider>
   );
