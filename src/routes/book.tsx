@@ -233,7 +233,7 @@ function BookPage() {
                   <div>
                     <p className="mb-2 text-sm font-medium">{t("pickTime")}</p>
                     {slots === null ? <p className="text-sm text-muted-foreground">…</p> : slotErr ? (
-                      <p className="text-sm text-destructive">{tr("تعذر التحقق من المواعيد حاليًا، تواصلي مع جود عبر واتساب.", "Availability can't be checked right now, please contact Jood on WhatsApp.")}</p>
+                      <p className="text-sm text-destructive">{tr("تعذّر التحقق من المواعيد حاليًا، تواصلي معنا عبر واتساب.", "Availability can't be checked right now, please contact us on WhatsApp.")}</p>
                     ) : slots.length === 0 ? <p className="text-sm text-muted-foreground">{t("noSlots")}</p> : (
                       <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
                         {slots.map((s) => (
