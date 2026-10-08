@@ -161,13 +161,17 @@ function BookPage() {
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
       <div className="mx-auto max-w-5xl px-4 py-8">
+        <div className="mb-8 text-center">
+          <h1 className="font-display text-3xl font-semibold md:text-4xl">{t("bookCta")}</h1>
+          <div className="gold-divider mt-3" aria-hidden>✦</div>
+        </div>
         <ol className="mb-8 flex gap-2 overflow-x-auto text-xs">
           {steps.map((s, i) => (
             <li key={s} className={`whitespace-nowrap rounded-full px-3 py-1.5 ${i === step ? "bg-primary text-primary-foreground" : i < step ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"}`}>{i + 1}. {s}</li>
           ))}
         </ol>
         <div className="grid gap-6 md:grid-cols-[1fr_300px]">
-          <div className="rounded-2xl border border-border bg-card p-5 md:p-7">
+          <div className="card-luxe p-5 md:p-7">
             {step === 0 && (
               <div className="space-y-4">
                 {SERVICE_KEYS.map((k) => (
@@ -272,7 +276,23 @@ function BookPage() {
               )}
             </div>
           </div>
-          <aside className="hidden h-fit rounded-2xl border border-border bg-card p-5 md:sticky md:top-20 md:block">{Summary}</aside>
+          <aside className="hidden h-fit space-y-4 md:sticky md:top-20 md:block">
+            <div className="card-luxe p-5">{Summary}</div>
+            <div className="card-luxe p-5 text-center">
+              <p className="font-display font-semibold">{t("whatsappDirect")}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{t("whatsappDirectText")}</p>
+              <a href={settings.contact.whatsapp} target="_blank" rel="noreferrer" className="btn-outline mt-4 w-full text-sm">
+                {t("whatsapp")}
+              </a>
+            </div>
+          </aside>
+        </div>
+        <div className="card-luxe mt-6 p-5 text-center md:hidden">
+          <p className="font-display font-semibold">{t("whatsappDirect")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("whatsappDirectText")}</p>
+          <a href={settings.contact.whatsapp} target="_blank" rel="noreferrer" className="btn-outline mt-4 w-full text-sm">
+            {t("whatsapp")}
+          </a>
         </div>
       </div>
     </div>
