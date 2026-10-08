@@ -32,12 +32,14 @@ export async function busyForRange(fromIso: string, toIso: string, bufferMin: nu
   const pad = bufferMin * 60000;
   const { data: bookings } = await db
     .from("bookings")
-    .select("id, start_at, end_at")
+    .select("id, start_at, end_at, status, deposit_deadline")
     .in("status", ["pre_approved", "receipt_pending", "confirmed"])
     .lt("start_at", toIso)
     .gt("end_at", fromIso);
   for (const b of bookings ?? []) {
     if (b.id === excludeId) continue;
+    // A pre-approval whose 24h deadline passed no longer holds the slot, even before the sweep runs.
+    if (b.status === "pre_approved" && b.deposit_deadline && +new Date(b.deposit_deadline) < Date.now()) continue;
     out.push({ s: +new Date(b.start_at) - pad, e: +new Date(b.end_at) + pad });
   }
   const { data: blocks } = await db.from("blocked_slots").select("start_at, end_at").lt("start_at", toIso).gt("end_at", fromIso);
