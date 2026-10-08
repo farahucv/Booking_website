@@ -14,13 +14,215 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      blocked_slots: {
+        Row: {
+          created_at: string
+          end_at: string
+          id: string
+          reason: string | null
+          source: string
+          start_at: string
+        }
+        Insert: {
+          created_at?: string
+          end_at: string
+          id?: string
+          reason?: string | null
+          source?: string
+          start_at: string
+        }
+        Update: {
+          created_at?: string
+          end_at?: string
+          id?: string
+          reason?: string | null
+          source?: string
+          start_at?: string
+        }
+        Relationships: []
+      }
+      booking_events: {
+        Row: {
+          booking_id: string
+          created_at: string
+          from_status: string | null
+          id: number
+          note: string | null
+          to_status: string
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string
+          from_status?: string | null
+          id?: never
+          note?: string | null
+          to_status: string
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string
+          from_status?: string | null
+          id?: never
+          note?: string | null
+          to_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_events_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bookings: {
+        Row: {
+          calendar_event_id: string | null
+          city: string | null
+          created_at: string
+          customer_name: string
+          customer_phone: string
+          deposit_amount: number
+          deposit_deadline: string | null
+          district: string | null
+          end_at: string
+          hair_price: number | null
+          hair_service: Json | null
+          id: string
+          lang: string
+          location_desc: string | null
+          location_type: string
+          location_url: string | null
+          makeup_total: number
+          notes: string | null
+          receipt_path: string | null
+          services: Json
+          start_at: string
+          status: string
+          tracking_token: string
+          travel_fee: number | null
+          updated_at: string
+        }
+        Insert: {
+          calendar_event_id?: string | null
+          city?: string | null
+          created_at?: string
+          customer_name: string
+          customer_phone: string
+          deposit_amount: number
+          deposit_deadline?: string | null
+          district?: string | null
+          end_at: string
+          hair_price?: number | null
+          hair_service?: Json | null
+          id?: string
+          lang?: string
+          location_desc?: string | null
+          location_type: string
+          location_url?: string | null
+          makeup_total: number
+          notes?: string | null
+          receipt_path?: string | null
+          services: Json
+          start_at: string
+          status?: string
+          tracking_token?: string
+          travel_fee?: number | null
+          updated_at?: string
+        }
+        Update: {
+          calendar_event_id?: string | null
+          city?: string | null
+          created_at?: string
+          customer_name?: string
+          customer_phone?: string
+          deposit_amount?: number
+          deposit_deadline?: string | null
+          district?: string | null
+          end_at?: string
+          hair_price?: number | null
+          hair_service?: Json | null
+          id?: string
+          lang?: string
+          location_desc?: string | null
+          location_type?: string
+          location_url?: string | null
+          makeup_total?: number
+          notes?: string | null
+          receipt_path?: string | null
+          services?: Json
+          start_at?: string
+          status?: string
+          tracking_token?: string
+          travel_fee?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      portfolio_images: {
+        Row: {
+          created_at: string
+          id: string
+          sort_order: number
+          storage_path: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          sort_order?: number
+          storage_path: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          sort_order?: number
+          storage_path?: string
+        }
+        Relationships: []
+      }
+      settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: { Args: never; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
