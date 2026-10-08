@@ -10,33 +10,44 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicHooksExpireDepositsRouteImport } from './routes/api/public/hooks/expire-deposits'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicHooksExpireDepositsRoute =
+  ApiPublicHooksExpireDepositsRouteImport.update({
+    id: '/api/public/hooks/expire-deposits',
+    path: '/api/public/hooks/expire-deposits',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/public/hooks/expire-deposits': typeof ApiPublicHooksExpireDepositsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/public/hooks/expire-deposits': typeof ApiPublicHooksExpireDepositsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/public/hooks/expire-deposits': typeof ApiPublicHooksExpireDepositsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/public/hooks/expire-deposits'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/public/hooks/expire-deposits'
+  id: '__root__' | '/' | '/api/public/hooks/expire-deposits'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiPublicHooksExpireDepositsRoute: typeof ApiPublicHooksExpireDepositsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +59,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/expire-deposits': {
+      id: '/api/public/hooks/expire-deposits'
+      path: '/api/public/hooks/expire-deposits'
+      fullPath: '/api/public/hooks/expire-deposits'
+      preLoaderRoute: typeof ApiPublicHooksExpireDepositsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiPublicHooksExpireDepositsRoute: ApiPublicHooksExpireDepositsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

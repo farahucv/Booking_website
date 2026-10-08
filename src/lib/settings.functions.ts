@@ -78,7 +78,7 @@ export const updateSettings = createServerFn({ method: "POST" })
   .handler(async ({ context, data }) => {
     const { data: ok } = await (context as any).supabase.rpc("is_admin");
     if (!ok) throw new Error("forbidden");
-    const allowed = [...PUBLIC_KEYS, "bank_details", "calendar"];
+    const allowed = [...PUBLIC_KEYS, "bank_details", "calendar", "policy"];
     if (!allowed.includes(data.key as (typeof allowed)[number])) throw new Error("unknown setting");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin
