@@ -10,11 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BookRouteImport } from './routes/book'
+import { Route as TrackTokenRouteImport } from './routes/track.$token'
 import { Route as ApiPublicHooksExpireDepositsRouteImport } from './routes/api/public/hooks/expire-deposits'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookRoute = BookRouteImport.update({
+  id: '/book',
+  path: '/book',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackTokenRoute = TrackTokenRouteImport.update({
+  id: '/track/$token',
+  path: '/track/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicHooksExpireDepositsRoute =
@@ -26,27 +38,41 @@ const ApiPublicHooksExpireDepositsRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
+  '/track/$token': typeof TrackTokenRoute
   '/api/public/hooks/expire-deposits': typeof ApiPublicHooksExpireDepositsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
+  '/track/$token': typeof TrackTokenRoute
   '/api/public/hooks/expire-deposits': typeof ApiPublicHooksExpireDepositsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
+  '/track/$token': typeof TrackTokenRoute
   '/api/public/hooks/expire-deposits': typeof ApiPublicHooksExpireDepositsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/public/hooks/expire-deposits'
+  fullPaths:
+    '/' | '/book' | '/track/$token' | '/api/public/hooks/expire-deposits'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/public/hooks/expire-deposits'
-  id: '__root__' | '/' | '/api/public/hooks/expire-deposits'
+  to: '/' | '/book' | '/track/$token' | '/api/public/hooks/expire-deposits'
+  id:
+    | '__root__'
+    | '/'
+    | '/book'
+    | '/track/$token'
+    | '/api/public/hooks/expire-deposits'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BookRoute: typeof BookRoute
+  TrackTokenRoute: typeof TrackTokenRoute
   ApiPublicHooksExpireDepositsRoute: typeof ApiPublicHooksExpireDepositsRoute
 }
 
@@ -57,6 +83,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book': {
+      id: '/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof BookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/track/$token': {
+      id: '/track/$token'
+      path: '/track/$token'
+      fullPath: '/track/$token'
+      preLoaderRoute: typeof TrackTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/hooks/expire-deposits': {
@@ -71,6 +111,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BookRoute: BookRoute,
+  TrackTokenRoute: TrackTokenRoute,
   ApiPublicHooksExpireDepositsRoute: ApiPublicHooksExpireDepositsRoute,
 }
 export const routeTree = rootRouteImport
