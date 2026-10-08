@@ -5,6 +5,7 @@ import { useI18n, fmtMoney } from "@/lib/i18n";
 import { SERVICES, SERVICE_KEYS } from "@/lib/pricing";
 import { getPublicSettings } from "@/lib/settings.functions";
 import { listPortfolio } from "@/lib/bookings.functions";
+import heroImg from "@/assets/hero.jpg";
 
 const homeQuery = queryOptions({
   queryKey: ["home"],
@@ -31,10 +32,10 @@ export const Route = createFileRoute("/")({
   notFoundComponent: () => <div className="p-10 text-center">Not found</div>,
 });
 
-function SectionHeading({ title }: { title: string }) {
+function SectionHeading({ title, light }: { title: string; light?: boolean }) {
   return (
     <div className="mb-12 text-center">
-      <h2 className="font-display text-4xl font-semibold md:text-5xl">{title}</h2>
+      <h2 className={`font-display text-4xl font-bold md:text-5xl ${light ? "text-[oklch(0.96_0.012_88)]" : ""}`}>{title}</h2>
       <div className="gold-divider mt-5 text-lg" aria-hidden>✦</div>
     </div>
   );
@@ -48,24 +49,32 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
-      {/* Hero — full-width calm cream */}
-      <section className="hero-cream relative overflow-hidden">
-        <div className="relative mx-auto max-w-4xl px-4 pb-24 pt-24 text-center md:pb-32 md:pt-32">
-          <span className="inline-block rounded-full border border-gold/40 bg-card/70 px-5 py-1.5 text-sm font-medium tracking-wide text-muted-foreground">
-            {t("tagline")}
-          </span>
-          <h1 className="mt-8 font-display text-7xl font-semibold leading-[1.05] md:text-9xl">{t("brand")}</h1>
-          <div className="gold-divider mt-8 text-xl" aria-hidden>✦</div>
-          <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">{t("intro")}</p>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
-            <Link to="/book" className="btn-primary px-10 text-base">{t("bookCta")}</Link>
-            <a href={c.whatsapp} target="_blank" rel="noreferrer" className="btn-outline px-10 text-base">
-              {t("whatsapp")}
-            </a>
+      {/* Hero — editorial split */}
+      <section className="hero-editorial relative overflow-hidden">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 md:grid-cols-2 md:py-24">
+          <div className="text-center md:text-start">
+            <span className="eyebrow">{t("tagline")}</span>
+            <h1 className="mt-6 font-display text-6xl font-bold leading-[1.1] md:text-8xl">{t("brand")}</h1>
+            <p className="mx-auto mt-6 max-w-md text-lg leading-relaxed text-muted-foreground md:mx-0">{t("intro")}</p>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-4 md:justify-start">
+              <Link to="/book" className="btn-gold px-10 text-base">{t("bookCta")}</Link>
+              <a href={c.whatsapp} target="_blank" rel="noreferrer" className="btn-outline px-10 text-base">
+                {t("whatsapp")}
+              </a>
+            </div>
+            {!data.settings.booking_open && <p className="mt-6 text-sm text-muted-foreground">{t("bookingClosed")}</p>}
           </div>
-          {!data.settings.booking_open && <p className="mt-6 text-sm text-muted-foreground">{t("bookingClosed")}</p>}
+          <div className="relative">
+            <div aria-hidden className="absolute -inset-4 rounded-[2.5rem] border border-gold/40" />
+            <img
+              src={heroImg}
+              alt={t("brand")}
+              width={1536}
+              height={1024}
+              className="relative aspect-[4/3] w-full rounded-[2rem] object-cover shadow-[var(--shadow-lift)]"
+            />
+          </div>
         </div>
-        <div aria-hidden className="mx-auto h-px max-w-3xl bg-gradient-to-l from-transparent via-gold/50 to-transparent" />
       </section>
 
       {/* Portfolio */}
@@ -74,38 +83,54 @@ function Index() {
         {data.portfolio.length === 0 ? (
           <p className="card-luxe border-dashed p-16 text-center text-muted-foreground">{t("portfolioEmpty")}</p>
         ) : (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-            {data.portfolio.map((p) => (
-              <img key={p.id} src={p.url} alt={t("portfolio")} loading="lazy" className="aspect-[3/4] w-full rounded-3xl object-cover shadow-[var(--shadow-soft)]" />
+          <div className="grid grid-cols-2 gap-5 md:grid-cols-3">
+            {data.portfolio.map((p, i) => (
+              <img
+                key={p.id}
+                src={p.url}
+                alt={t("portfolio")}
+                loading="lazy"
+                className={`aspect-[3/4] w-full rounded-3xl object-cover shadow-[var(--shadow-soft)] ${i % 3 === 1 ? "md:translate-y-8" : ""}`}
+              />
             ))}
           </div>
         )}
       </section>
 
-      {/* Services — butter band */}
-      <section className="butter-band">
+      {/* Services — espresso feature band */}
+      <section className="espresso-band">
         <div className="mx-auto max-w-6xl px-4 py-20 md:py-28">
-          <SectionHeading title={t("services")} />
+          <SectionHeading title={t("services")} light />
           <div className="grid gap-6 md:grid-cols-3">
-            {SERVICE_KEYS.map((k) => (
-              <div key={k} className="card-luxe group p-9 text-center transition-shadow hover:shadow-[var(--shadow-lift)]">
-                <h3 className="font-display text-2xl font-semibold">{t(`svc_${k}` as const)}</h3>
-                <p className="mt-5 font-display text-5xl font-semibold text-primary">{fmtMoney(SERVICES[k].price, lang)}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{k === "bride" ? t("forBride") : t("perPerson")}</p>
-                <div className="mx-auto mt-6 h-px w-12 bg-gold/60" aria-hidden />
-                <p className="mt-5 text-sm text-muted-foreground">
-                  {t("deposit")}: {fmtMoney(SERVICES[k].deposit, lang)}
-                </p>
-              </div>
-            ))}
+            {SERVICE_KEYS.map((k) => {
+              const featured = k === "queen";
+              return (
+                <div
+                  key={k}
+                  className={`rounded-3xl p-9 text-center transition-transform hover:-translate-y-1 ${
+                    featured
+                      ? "border border-gold/60 bg-[oklch(0.32_0.04_58)] shadow-[var(--shadow-lift)] md:scale-[1.04]"
+                      : "border border-[oklch(1_0_0/12%)] bg-[oklch(1_0_0/4%)]"
+                  }`}
+                >
+                  <h3 className="font-display text-2xl font-bold text-[oklch(0.96_0.012_88)]">{t(`svc_${k}` as const)}</h3>
+                  <p className="mt-5 font-display text-5xl font-bold text-gold">{fmtMoney(SERVICES[k].price, lang)}</p>
+                  <p className="mt-2 text-sm text-[oklch(0.8_0.02_80)]">{k === "bride" ? t("forBride") : t("perPerson")}</p>
+                  <div className="mx-auto mt-6 h-px w-12 bg-gold/60" aria-hidden />
+                  <p className="mt-5 text-sm text-[oklch(0.8_0.02_80)]">
+                    {t("deposit")}: {fmtMoney(SERVICES[k].deposit, lang)}
+                  </p>
+                </div>
+              );
+            })}
           </div>
-          <p className="mt-8 text-center text-sm text-muted-foreground">✦ {t("lashesFree")} · {t("travelPending")}</p>
-          <div className="card-luxe mx-auto mt-10 max-w-2xl p-8 text-center">
-            <h3 className="font-display text-xl font-semibold">{t("hairTitle")}</h3>
-            <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">{t("hairNote")}</p>
+          <p className="mt-8 text-center text-sm text-[oklch(0.8_0.02_80)]">✦ {t("lashesFree")} · {t("travelPending")}</p>
+          <div className="mx-auto mt-10 max-w-2xl rounded-3xl border border-[oklch(1_0_0/12%)] bg-[oklch(1_0_0/4%)] p-8 text-center">
+            <h3 className="font-display text-xl font-bold text-[oklch(0.96_0.012_88)]">{t("hairTitle")}</h3>
+            <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-[oklch(0.8_0.02_80)]">{t("hairNote")}</p>
           </div>
           <div className="mt-14 text-center">
-            <Link to="/book" className="btn-primary px-10 text-base">{t("bookCta")}</Link>
+            <Link to="/book" className="btn-gold px-10 text-base">{t("bookCta")}</Link>
           </div>
         </div>
       </section>
@@ -114,7 +139,7 @@ function Index() {
       <footer className="border-t border-border bg-card/70">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-6 px-4 py-12 text-sm">
           <div>
-            <p className="font-display text-lg font-semibold">{t("contact")}</p>
+            <p className="font-display text-lg font-bold">{t("contact")}</p>
             <p className="mt-1 text-muted-foreground" dir="ltr">{c.phone}</p>
           </div>
           <div className="flex flex-wrap gap-6">
