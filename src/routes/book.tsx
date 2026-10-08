@@ -87,7 +87,7 @@ function BookPage() {
         <SiteHeader />
         <div className="mx-auto max-w-lg px-4 py-20 text-center">
           <p className="text-lg">{t("bookingClosed")}</p>
-          <a href={settings.contact.whatsapp} target="_blank" rel="noreferrer" className="mt-6 inline-block rounded-full bg-primary px-6 py-3 font-bold text-primary-foreground">{t("whatsapp")}</a>
+          <a href={settings.contact.whatsapp} target="_blank" rel="noreferrer" className="btn-primary mt-6">{t("whatsapp")}</a>
         </div>
       </div>
     );
@@ -161,13 +161,17 @@ function BookPage() {
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
       <div className="mx-auto max-w-5xl px-4 py-8">
+        <div className="mb-8 text-center">
+          <h1 className="font-display text-3xl font-semibold md:text-4xl">{t("bookCta")}</h1>
+          <div className="gold-divider mt-3" aria-hidden>✦</div>
+        </div>
         <ol className="mb-8 flex gap-2 overflow-x-auto text-xs">
           {steps.map((s, i) => (
             <li key={s} className={`whitespace-nowrap rounded-full px-3 py-1.5 ${i === step ? "bg-primary text-primary-foreground" : i < step ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"}`}>{i + 1}. {s}</li>
           ))}
         </ol>
         <div className="grid gap-6 md:grid-cols-[1fr_300px]">
-          <div className="rounded-2xl border border-border bg-card p-5 md:p-7">
+          <div className="card-luxe p-5 md:p-7">
             {step === 0 && (
               <div className="space-y-4">
                 {SERVICE_KEYS.map((k) => (
@@ -264,15 +268,31 @@ function BookPage() {
             )}
 
             <div className="mt-8 flex justify-between gap-3">
-              <button type="button" disabled={step === 0} onClick={() => setStep(step - 1)} className="rounded-full border border-border px-5 py-2.5 disabled:opacity-40">{t("back")}</button>
+              <button type="button" disabled={step === 0} onClick={() => setStep(step - 1)} className="btn-outline disabled:opacity-40">{t("back")}</button>
               {step < 4 ? (
-                <button type="button" disabled={!canNext} onClick={() => setStep(step + 1)} className="rounded-full bg-primary px-6 py-2.5 font-bold text-primary-foreground disabled:opacity-40">{t("next")}</button>
+                <button type="button" disabled={!canNext} onClick={() => setStep(step + 1)} className="btn-primary">{t("next")}</button>
               ) : (
-                <button type="button" disabled={!canNext || busy} onClick={submit} className="rounded-full bg-primary px-6 py-2.5 font-bold text-primary-foreground disabled:opacity-40">{busy ? "…" : t("submit")}</button>
+                <button type="button" disabled={!canNext || busy} onClick={submit} className="btn-primary">{busy ? "…" : t("submit")}</button>
               )}
             </div>
           </div>
-          <aside className="hidden h-fit rounded-2xl border border-border bg-card p-5 md:sticky md:top-20 md:block">{Summary}</aside>
+          <aside className="hidden h-fit space-y-4 md:sticky md:top-20 md:block">
+            <div className="card-luxe p-5">{Summary}</div>
+            <div className="card-luxe p-5 text-center">
+              <p className="font-display font-semibold">{t("whatsappDirect")}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{t("whatsappDirectText")}</p>
+              <a href={settings.contact.whatsapp} target="_blank" rel="noreferrer" className="btn-outline mt-4 w-full text-sm">
+                {t("whatsapp")}
+              </a>
+            </div>
+          </aside>
+        </div>
+        <div className="card-luxe mt-6 p-5 text-center md:hidden">
+          <p className="font-display font-semibold">{t("whatsappDirect")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("whatsappDirectText")}</p>
+          <a href={settings.contact.whatsapp} target="_blank" rel="noreferrer" className="btn-outline mt-4 w-full text-sm">
+            {t("whatsapp")}
+          </a>
         </div>
       </div>
     </div>

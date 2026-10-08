@@ -38,61 +38,90 @@ function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
-      <section className="mx-auto max-w-5xl px-4 pb-14 pt-16 text-center">
-        <p className="text-sm font-medium tracking-widest text-primary">{t("tagline")}</p>
-        <h1 className="mt-4 text-5xl font-extrabold leading-tight md:text-7xl">{t("brand")}</h1>
-        <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">{t("intro")}</p>
-        <Link to="/book" className="mt-8 inline-block rounded-full bg-primary px-8 py-3.5 text-base font-bold text-primary-foreground shadow-lg hover:opacity-90">
-          {t("bookCta")}
-        </Link>
-        {!data.settings.booking_open && <p className="mt-4 text-sm text-muted-foreground">{t("bookingClosed")}</p>}
+
+      {/* Hero */}
+      <section className="relative overflow-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(60% 50% at 50% 0%, oklch(0.72 0.1 82 / 14%), transparent 70%), radial-gradient(40% 35% at 85% 20%, oklch(0.4 0.11 18 / 8%), transparent 70%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-4xl px-4 pb-16 pt-20 text-center md:pt-28">
+          <p className="text-sm font-semibold tracking-[0.3em] text-gold">{t("tagline")}</p>
+          <h1 className="mt-5 font-display text-6xl font-semibold leading-[1.1] md:text-8xl">{t("brand")}</h1>
+          <div className="gold-divider mt-7 text-lg" aria-hidden>✦</div>
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">{t("intro")}</p>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <Link to="/book" className="btn-primary text-base">{t("bookCta")}</Link>
+            <a href={c.whatsapp} target="_blank" rel="noreferrer" className="btn-outline text-base">
+              {t("whatsapp")}
+            </a>
+          </div>
+          {!data.settings.booking_open && <p className="mt-5 text-sm text-muted-foreground">{t("bookingClosed")}</p>}
+        </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 py-12">
-        <h2 className="mb-6 text-2xl font-bold">{t("portfolio")}</h2>
+      {/* Portfolio */}
+      <section className="mx-auto max-w-5xl px-4 py-14">
+        <div className="mb-8 text-center">
+          <h2 className="font-display text-3xl font-semibold md:text-4xl">{t("portfolio")}</h2>
+          <div className="gold-divider mt-4" aria-hidden>✦</div>
+        </div>
         {data.portfolio.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">{t("portfolioEmpty")}</p>
+          <p className="card-luxe border-dashed p-12 text-center text-muted-foreground">{t("portfolioEmpty")}</p>
         ) : (
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
             {data.portfolio.map((p) => (
-              <img key={p.id} src={p.url} alt={t("portfolio")} loading="lazy" className="aspect-[3/4] w-full rounded-xl object-cover" />
+              <img key={p.id} src={p.url} alt={t("portfolio")} loading="lazy" className="aspect-[3/4] w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]" />
             ))}
           </div>
         )}
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 py-12">
-        <h2 className="mb-6 text-2xl font-bold">{t("services")}</h2>
-        <div className="grid gap-4 md:grid-cols-3">
+      {/* Services */}
+      <section className="mx-auto max-w-5xl px-4 py-14">
+        <div className="mb-8 text-center">
+          <h2 className="font-display text-3xl font-semibold md:text-4xl">{t("services")}</h2>
+          <div className="gold-divider mt-4" aria-hidden>✦</div>
+        </div>
+        <div className="grid gap-5 md:grid-cols-3">
           {SERVICE_KEYS.map((k) => (
-            <div key={k} className="rounded-2xl border border-border bg-card p-6">
-              <h3 className="text-lg font-bold">{t(`svc_${k}` as const)}</h3>
-              <p className="mt-3 text-3xl font-extrabold text-primary">{fmtMoney(SERVICES[k].price, lang)}</p>
-              <p className="text-sm text-muted-foreground">{k === "bride" ? t("forBride") : t("perPerson")}</p>
-              <p className="mt-3 text-sm text-muted-foreground">
+            <div key={k} className="card-luxe group p-7 text-center transition-shadow hover:shadow-[var(--shadow-lift)]">
+              <h3 className="font-display text-xl font-semibold">{t(`svc_${k}` as const)}</h3>
+              <p className="mt-4 font-display text-4xl font-semibold text-primary">{fmtMoney(SERVICES[k].price, lang)}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{k === "bride" ? t("forBride") : t("perPerson")}</p>
+              <div className="mx-auto mt-5 h-px w-10 bg-gold/60" aria-hidden />
+              <p className="mt-4 text-sm text-muted-foreground">
                 {t("deposit")}: {fmtMoney(SERVICES[k].deposit, lang)}
               </p>
             </div>
           ))}
         </div>
-        <p className="mt-4 text-sm text-muted-foreground">✦ {t("lashesFree")} · {t("travelPending")}</p>
-        <div className="mt-6 rounded-2xl border border-border bg-card p-6">
-          <h3 className="font-bold">{t("hairTitle")}</h3>
-          <p className="mt-2 text-sm text-muted-foreground">{t("hairNote")}</p>
+        <p className="mt-5 text-center text-sm text-muted-foreground">✦ {t("lashesFree")} · {t("travelPending")}</p>
+        <div className="card-luxe mt-6 p-7 text-center">
+          <h3 className="font-display text-lg font-semibold">{t("hairTitle")}</h3>
+          <p className="mx-auto mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground">{t("hairNote")}</p>
+        </div>
+        <div className="mt-10 text-center">
+          <Link to="/book" className="btn-primary text-base">{t("bookCta")}</Link>
         </div>
       </section>
 
-      <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-8 text-sm">
+      {/* Footer */}
+      <footer className="mt-8 border-t border-border bg-card/60">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-10 text-sm">
           <div>
-            <p className="font-bold">{t("contact")}</p>
-            <p className="text-muted-foreground" dir="ltr">{c.phone}</p>
+            <p className="font-display text-base font-semibold">{t("contact")}</p>
+            <p className="mt-1 text-muted-foreground" dir="ltr">{c.phone}</p>
           </div>
-          <div className="flex flex-wrap gap-4">
-            <a href={c.whatsapp} target="_blank" rel="noreferrer" className="hover:text-primary">{t("whatsapp")}</a>
-            <a href={c.instagram} target="_blank" rel="noreferrer" className="hover:text-primary">Instagram</a>
-            <a href={c.tiktok} target="_blank" rel="noreferrer" className="hover:text-primary">TikTok</a>
-            <a href={c.snapchat} target="_blank" rel="noreferrer" className="hover:text-primary">Snapchat</a>
+          <div className="flex flex-wrap gap-5">
+            <a href={c.whatsapp} target="_blank" rel="noreferrer" className="font-medium hover:text-primary">{t("whatsapp")}</a>
+            <a href={c.instagram} target="_blank" rel="noreferrer" className="font-medium hover:text-primary">Instagram</a>
+            <a href={c.tiktok} target="_blank" rel="noreferrer" className="font-medium hover:text-primary">TikTok</a>
+            <a href={c.snapchat} target="_blank" rel="noreferrer" className="font-medium hover:text-primary">Snapchat</a>
             <Link to="/admin" className="text-muted-foreground hover:text-primary">{tr("الإدارة", "Admin")}</Link>
           </div>
         </div>

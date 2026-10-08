@@ -42,14 +42,17 @@ export function mergePublic(map: Record<string, unknown>): PublicSettings {
   };
 }
 
-/** Settings are complete enough to open real booking. */
-export function settingsComplete(s: PublicSettings, bank: unknown): boolean {
+/** Settings are complete enough to open real booking. Bank details are required later, before pre-approving. */
+export function settingsComplete(s: PublicSettings, _bank: unknown): boolean {
   const d = s.durations;
   const durationsOk = d.evening > 0 && d.queen > 0 && d.bride > 0;
   const hoursOk = Object.values(s.working_hours).some((h) => h && h.start && h.end);
+  return durationsOk && hoursOk;
+}
+
+export function bankComplete(bank: unknown): boolean {
   const b = bank as { bank_name?: string; beneficiary?: string; iban?: string } | null;
-  const bankOk = !!(b?.bank_name && b?.beneficiary && b?.iban);
-  return durationsOk && hoursOk && bankOk;
+  return !!(b?.bank_name && b?.beneficiary && b?.iban);
 }
 
 // Public: only non-sensitive keys

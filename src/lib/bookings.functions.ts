@@ -206,6 +206,9 @@ export const adminAction = createServerFn({ method: "POST" })
     if (data.action === "pre_approve") {
       if (b.status !== "pending_review") throw new Error("bad_state");
       if (b.location_type !== "at_jood" && data.travel_fee === undefined) throw new Error("travel_fee_required");
+      const { bank } = await s.loadAll();
+      const { bankComplete } = await import("./settings.functions");
+      if (!bankComplete(bank)) throw new Error("bank_required");
       // Re-check availability (also enforced by DB trigger)
       const { pub } = await s.loadAll();
       const busy = await s.busyForRange(b.start_at, b.end_at, pub.durations.buffer, calendar, b.id);
