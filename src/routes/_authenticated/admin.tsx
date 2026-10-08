@@ -111,7 +111,6 @@ function Requests() {
       </select>
       {list.length === 0 && <p className="text-muted-foreground">{tr("لا توجد طلبات.", "No requests.")}</p>}
       <div className="grid gap-4 md:grid-cols-2">{list.map((b) => <BookingCard key={b.id} b={b} />)}</div>
-      <p className="text-xs text-muted-foreground">{fmtMoney(0, lang) && ""}</p>
     </div>
   );
 }

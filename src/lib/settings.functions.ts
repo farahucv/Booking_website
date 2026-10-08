@@ -69,7 +69,7 @@ export const getAdminSettings = createServerFn({ method: "GET" })
     if (!ok) throw new Error("forbidden");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const map = await readSettings(supabaseAdmin);
-    return { public: mergePublic(map), bank_details: map["bank_details"] ?? null, calendar: map["calendar"] ?? null };
+    return { public: mergePublic(map), bank_details: map["bank_details"] ?? null, calendar: map["calendar"] ?? null, policy: map["policy"] ?? null };
   });
 
 export const updateSettings = createServerFn({ method: "POST" })
